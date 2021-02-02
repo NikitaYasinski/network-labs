@@ -53,7 +53,7 @@ class MyHTTPServer:
         host = headers.get('Host')
         if not host:
             raise HTTPError(400, 'Bad request', 'Host header is missing')
-        if host not in (self._server_name, f'{self._server_name}:{self._port}'):
+        if host not in (self._server_name, f'{self._host}:{self._port}'):
             raise HTTPError(404, 'Not found')
         
         return Request(method, target, ver, headers, rfile)
