@@ -1,5 +1,7 @@
 import socket
-import sys
+from http.request import Request
+from http.response import Response
+from http.httpError import HTTPError
 from email.parser import Parser
 
 MAX_LINE = 64 * 1024
@@ -115,6 +117,12 @@ class MyHTTPServer:
         
         except FileNotFoundError:
             raise HTTPError(404, 'Not found')
+
+    def handle_post(self, req):
+        pass
+
+    def handle_options(self, req):
+        pass
     
     def send_response(self, conn, resp):
         wfile = conn.makefile('wb')
@@ -145,37 +153,3 @@ class MyHTTPServer:
             body = b'Internal Server Error'
         resp = Response(status, reason, ['Content-Length', len(body)], body)
         self.send_response(conn, resp)
-
-class Request:
-    def __init__(self, method, target, version, headers, rfile):
-        self.method = method
-        self.target = target
-        self.version = version
-        self.headers = headers
-        self.rfile = rfile
-
-class Response:
-    def __init__(self, status, reason, headers=None, body=None):
-        self.status = status
-        self.reason = reason
-        self.headers = headers
-        self.body = body
-
-class HTTPError(Exception):
-    def __init__(self, status, reason, body=None):
-        super()
-        self.status = status
-        self.reason = reason
-        self.body = body
-
-if __name__ == '__main__':
-    host = sys.argv[1]
-    port = int(sys.argv[2])
-    name = sys.argv[3]
-
-    serv = MyHTTPServer(host, port, name)
-    try:
-        serv.serve_forever()
-    except KeyboardInterrupt:
-        pass
-
