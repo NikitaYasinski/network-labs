@@ -2,6 +2,7 @@ import socket
 from http.request import Request
 from http.response import Response
 from http.httpError import HTTPError
+from http.logger import Logger
 from email.parser import Parser
 import os
 
@@ -14,6 +15,7 @@ class MyHTTPServer:
         self._host = host
         self._port = port
         self._server_name = server_name
+        self._logger = Logger()
 
     def serve_forever(self):
         serv_sock = socket.socket(
@@ -133,6 +135,7 @@ class MyHTTPServer:
         wfile = conn.makefile('wb')
         status_line = f'HTTP/1.1 {resp.status} {resp.reason}\r\n'
         wfile.write(status_line.encode('iso-8859-1'))
+        self._logger.log_response(resp)
 
         if resp.headers:
             for key, value in resp.headers.items():
