@@ -1,29 +1,30 @@
+import logging
+
+
 class Logger:
     def __init__(self):
-        newFile = open('log.txt', 'w+')
-        newFile.close()
+        new_file = open('log.txt', 'w+')
+        new_file.close()
 
-    def log(self, text, title=''):
-        file = open('log.txt', "a")
-        if title != '':
-            file.write(title + '\n')
-            print(title)
+        log_format = '%(message)s'
+        logging.basicConfig(filename='log.txt', filemode='a', format=log_format, level=logging.INFO)
 
-        file.write(text + '\n')
-        print(text)
-        file.close()
+        console = logging.StreamHandler()
+        console.setLevel(logging.INFO)
+        formatter = logging.Formatter(log_format)
+        console.setFormatter(formatter)
+
+        logging.getLogger('').addHandler(console)
 
     def log_response(self, response):
-        file = open('log.txt', "a")
         status = f'\nHTTP/1.1 {response.status} {response.reason}'
-        self.log(status)
+        logging.info(status)
 
         if response.headers:
-            self.log('Headers: ')
+            logging.info('Headers: ')
             for key, value in response.headers.items():
-                self.log(f'{key}: {value}\r\n')
+                logging.info(f'{key}: {value}\r\n')
 
         if response.body:
-            self.log(response.body.decode('iso-8859-1'), 'Body:')
-
-        file.close()
+            logging.info('Body:')
+            logging.info(response.body.decode('iso-8859-1'))
