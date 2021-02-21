@@ -5,10 +5,11 @@ from http.httpError import HTTPError
 from http.logger import Logger
 from email.parser import Parser
 import os
+import re
 
 MAX_LINE = 64 * 1024
 MAX_HEADERS = 100
-
+DIRECTORY_WITH_FILES_PATH = './files'
 
 class MyHTTPServer:
     def __init__(self, host, port, server_name):
@@ -33,6 +34,8 @@ class MyHTTPServer:
                 try:
                     self.serve_client(conn)
                 except Exception as e:
+                    if e.errno not in (errno.ECONNRESET, errno.ECONNABORTED, errno.EPIPE):
+                        raise
                     print('Client serving failed', e)
         finally:
             serv_sock.close()
@@ -125,8 +128,44 @@ class MyHTTPServer:
         except FileNotFoundError:
             raise HTTPError(404, 'Not found')
 
+    def get_property(self, rfile, separator):
+        decoded_separator = separator.decode('iso-8859-1').strip().replace('-', '')
+        property = []
+        while True:
+            line = rfile.readline(MAX_LINE + 1)
+            decoded_line = line.decode('iso-8859-1')
+            if decoded_separator.strip() == decoded_line.replace('-', '').strip():
+                return property
+            else:
+                property.append(line)
+
     def handle_post(self, req):
-        pass
+        separator = req.rfile.readline(MAX_LINE + 1)
+        data = []
+
+        try:
+            property = self.get_property(req.rfile, separator)
+            data.append(property)
+
+            for item in data:
+                content_disposition = item[0].decode('iso-8859-1')
+                content_type = item[1].decode('iso-8859-1')
+                file_data = b''.join(item[3:]).decode('iso-8859-1')
+
+                pattern = "\"(.*?)\""
+                filename_string = content_disposition.split('filename=')[1]
+                parsed_filename = re.search(pattern, filename_string).group(1)
+
+                try:
+                    file = open(f'{DIRECTORY_WITH_FILES_PATH}/{parsed_filename}', "w+")
+                    file.write(file_data)
+                    file.close()
+                except CreateFileError:
+                    raise HTTPError(500, 'Internal Server Error')
+
+            return Response(201, 'OK')
+        except Error:
+            raise HTTPError(403, 'Post error')
 
     def handle_options(self, req):
         pass
