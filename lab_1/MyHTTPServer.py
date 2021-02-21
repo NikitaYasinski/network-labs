@@ -34,6 +34,8 @@ class MyHTTPServer:
                 try:
                     self.serve_client(conn)
                 except Exception as e:
+                    if e.errno not in (errno.ECONNRESET, errno.ECONNABORTED, errno.EPIPE):
+                        raise
                     print('Client serving failed', e)
         finally:
             serv_sock.close()
@@ -126,21 +128,24 @@ class MyHTTPServer:
         except FileNotFoundError:
             raise HTTPError(404, 'Not found')
 
-    def handle_post(self, req):
-        separator = req.rfile.readline(MAX_LINE + 1)
-        decoded_separator = separator.decode('iso-8859-1')
-        data = []
+    def get_property(self, rfile, separator):
+        decoded_separator = separator.decode('iso-8859-1').strip().replace('-', '')
         property = []
-        try:
-            for line in req.rfile:
-                decoded_line = line.decode('iso-8859-1')
-                if decoded_line == decoded_separator:
-                    data.append(property)
-                    property = []
-                    continue
+        while True:
+            line = rfile.readline(MAX_LINE + 1)
+            decoded_line = line.decode('iso-8859-1')
+            if decoded_separator.strip() == decoded_line.replace('-', '').strip():
+                return property
+            else:
                 property.append(line)
 
-            data.append(property[:-1])
+    def handle_post(self, req):
+        separator = req.rfile.readline(MAX_LINE + 1)
+        data = []
+
+        try:
+            property = self.get_property(req.rfile, separator)
+            data.append(property)
 
             for item in data:
                 content_disposition = item[0].decode('iso-8859-1')
