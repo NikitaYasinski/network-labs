@@ -4,6 +4,7 @@ from http.response import Response
 from http.httpError import HTTPError
 from http.logger import Logger
 from email.parser import Parser
+from datetime import datetime
 import os
 import re
 
@@ -12,11 +13,13 @@ MAX_HEADERS = 100
 DIRECTORY_WITH_FILES_PATH = './files'
 
 class MyHTTPServer:
-    def __init__(self, host, port, server_name):
+    def __init__(self, host, port, server_name, headers):
         self._host = host
         self._port = port
         self._server_name = server_name
+        self._headers = headers
         self._logger = Logger()
+        self._common_headers = {}
 
     def serve_forever(self):
         serv_sock = socket.socket(
@@ -44,6 +47,8 @@ class MyHTTPServer:
         try:
             req = self.parse_request(conn)
             resp = self.handle_request(req)
+            resp.headers.update(self._headers)
+            resp.headers.update(self._common_headers)
             self.send_response(conn, resp)
         except ConnectionResetError:
             conn = None
@@ -168,7 +173,11 @@ class MyHTTPServer:
             raise HTTPError(403, 'Post error')
 
     def handle_options(self, req):
-        pass
+        self._common_headers = {
+            "Allow": "GET, POST, OPTIONS",
+            "Date": datetime.today().strftime('%a, %d %b %Y %X %z')
+        }
+        return Response(204, 'No content')
 
     def send_response(self, conn, resp):
         wfile = conn.makefile('wb')
