@@ -5,12 +5,17 @@ from http.httpError import HTTPError
 from http.logger import Logger
 from email.parser import Parser
 from datetime import datetime
+import mimetypes
 import os
 import re
 
 MAX_LINE = 64 * 1024
 MAX_HEADERS = 100
 DIRECTORY_WITH_FILES_PATH = './files'
+BINARY_READ_MIME_TYPES = [
+    'image/jpeg',
+    'application/pdf',
+]
 
 class MyHTTPServer:
     def __init__(self, host, port, server_name, headers):
@@ -116,18 +121,20 @@ class MyHTTPServer:
 
     def handle_get(self, req):
         filename = req.target
+        mt = mimetypes.guess_type(filename)[0]
         file_path = 'files/' + filename
 
         if not os.path.isfile(file_path):
             raise HTTPError(404, 'Not found')
-
         try:
-            fin = open(file_path)
+            mode = 'rb' if mt in BINARY_READ_MIME_TYPES else 'r'
+            fin = open(file_path, mode)
             body = fin.read()
             fin.close()
 
-            body = body.encode('utf-8')
-            headers = {'Content-Length': len(body)}
+            if mt[0:4] == 'text':
+                body = body.encode('utf-8')
+            headers = {'Content-Length': len(body), 'Content-type': mt}
             return Response(200, 'OK', headers, body)
 
         except FileNotFoundError:
