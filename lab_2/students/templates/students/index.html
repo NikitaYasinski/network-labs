@@ -1,0 +1,12 @@
+<form action="{% url 'insert_student' %}">
+    <input type="submit" value="Add new student" />
+</form>
+{% if students %}
+    <ul>
+    {% for student in students %}
+    <li><a href="{% url 'student' student.id %}">{{ student.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No students are available.</p>
+{% endif %}

@@ -1,0 +1,12 @@
+<h1>Delete student</h1>
+<form action="{% url 'delete_student' student.pk %}" method="post">
+    {% csrf_token %}
+    {{ form }}
+
+    Are you sure you want to delete the following student?:<br><br>
+    {{ student.name }}?<br><br>
+
+    <button class="button" type="submit">Delete</button>
+    <a href="{% url 'student' student.pk %}">Cancel</a>
+
+</form>
