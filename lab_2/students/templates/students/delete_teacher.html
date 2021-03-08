@@ -1,0 +1,20 @@
+{% extends "students/base.html" %}
+
+{% block title %}
+Delete teacher
+{% endblock %}
+
+{% block content %}
+<h1>Delete teacher</h1>
+<form action="{% url 'delete_teacher' teacher.pk %}" method="post">
+    {% csrf_token %}
+    {{ form }}
+
+    Are you sure you want to delete the following teacher?:<br><br>
+    {{ teacher.name }}<br><br>
+
+    <button class="btn btn-primary" type="submit">Delete</button>
+    <a class="btn btn-primary" href="{% url 'teacher' teacher.pk %}">Cancel</a>
+
+</form>
+{% endblock %}

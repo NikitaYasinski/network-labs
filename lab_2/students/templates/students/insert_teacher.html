@@ -1,12 +1,12 @@
 {% extends "students/base.html" %}
 
 {% block title %}
-Add new student
+Add new teacher
 {% endblock %}
 
 {% block content %}
-<h1>Add new student</h1>
-<form action="{% url 'insert_student' %}"
+<h1>Add new teacher</h1>
+<form action="{% url 'insert_teacher' %}"
       method="post">
       {% csrf_token %}
       {{ form.as_p }}

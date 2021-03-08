@@ -1,15 +1,17 @@
-<form action="{% url 'index' %}">
-    <input type="submit" value="Go home" />
-</form>
+{% extends "students/base.html" %}
+
+{% block title %}
+Student {{ student.name }}
+{% endblock %}
+
+{% block content %}
 <h1>{{ student.name }}</h1>
 <ul>
     <li>{{ student.name }}</li>
     <li>{{ student.email }}</li>
     <li>{{ student.phone }}</li>
+    <li>{{ student.group }}</li>
 </ul>
-<form action="{% url 'edit_student' student.pk %}">
-    <input type="submit" value="Edit" />
-</form>
-<form action="{% url 'delete_student' student.pk %}">
-    <input type="submit" value="Delete" />
-</form>
+<a class="btn btn-primary" href="{% url 'edit_student' student.pk %}" role="button">Edit</a>
+<a class="btn btn-primary" href="{% url 'delete_student' student.pk %}" role="button">Delete</a>
+{% endblock %}

@@ -1,7 +1,15 @@
+{% extends "students/base.html" %}
+
+{% block title %}
+Edit student
+{% endblock %}
+
+{% block content %}
 <h1>Edit student</h1>
 <form action="{% url 'edit_student' student.pk %}"
       method="post">
       {% csrf_token %}
       {{ form.as_p }}
-<button class="button" type="submit">Update</button>
+<button class="btn btn-primary" type="submit">Update</button>
 </form>
+{% endblock %}
