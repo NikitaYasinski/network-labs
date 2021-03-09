@@ -1,0 +1,15 @@
+{% extends "students/base.html" %}
+
+{% block title %}
+Edit faculty
+{% endblock %}
+
+{% block content %}
+<h1>Edit faculty</h1>
+<form action="{% url 'edit_faculty' faculty.pk %}"
+      method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+<button class="btn btn-primary" type="submit">Update</button>
+</form>
+{% endblock %}

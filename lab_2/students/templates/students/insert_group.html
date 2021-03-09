@@ -1,0 +1,15 @@
+{% extends "students/base.html" %}
+
+{% block title %}
+Add new group
+{% endblock %}
+
+{% block content %}
+<h1>Add new group</h1>
+<form action="{% url 'insert_group' %}"
+      method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+<button class="btn btn-primary" type="submit">Create</button>
+</form>
+{% endblock %}

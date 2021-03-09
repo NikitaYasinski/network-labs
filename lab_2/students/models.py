@@ -26,7 +26,7 @@ class Teacher(models.Model):
     name = models.CharField(max_length=100)
     email = models.CharField(max_length=100)
     phone = models.CharField(max_length=100)
-    group = models.ForeignKey(Group, on_delete=models.CASCADE, null=True)
+    group = models.OneToOneField(Group, on_delete=models.CASCADE, null=True)
     subject = models.CharField(max_length=100)
 
     def __str__(self):

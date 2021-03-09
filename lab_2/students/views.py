@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Student, Teacher
-from .forms import StudentForm, StudentDeleteForm, TeacherForm, TeacherDeleteForm
+from .models import Student, Teacher, Group, Faculty
+from .forms import StudentForm, StudentDeleteForm, TeacherForm, TeacherDeleteForm, GroupForm, GroupDeleteForm, FacultyForm, FacultyDeleteForm
 
 def index(request): 
     students = Student.objects.all()
@@ -54,7 +54,7 @@ def teachers(request):
     context = {'teachers': teachers}
     return render(request, 'students/teachers.html', context)                  
 
-def teacher(request, student_id):
+def teacher(request, teacher_id):
     teacher = get_object_or_404(Teacher, pk=teacher_id)
     return render(request, 'students/teacher.html', {'teacher': teacher})
 
@@ -88,7 +88,7 @@ def delete_teacher(request, teacher_id=None):
             teacher.delete()
             return redirect('teachers')
     else:
-        form = TeacherDeleteForm(instance=Teacher)
+        form = TeacherDeleteForm(instance=teacher)
 
     return render(request, 'students/delete_teacher.html',
                   {
@@ -96,4 +96,103 @@ def delete_teacher(request, teacher_id=None):
                       'teacher': teacher,
                   })
                    
+def groups(request): 
+    groups = Group.objects.all()
+    context = {'groups': groups}
+    return render(request, 'students/groups.html', context)                  
+
+def group(request, group_id):
+    group = get_object_or_404(Group, pk=group_id)
+    students = Student.objects.filter(group__id=group.pk)
+    try:    
+        teacher = Teacher.objects.get(group__id=group.pk)
+    except Teacher.DoesNotExist:
+        teacher = None
+    return render(request, 'students/group.html', {'group': group, 'students': students, 'teacher': teacher})
+
+def insert_group(request): 
+    if request.method == 'POST':
+        form = GroupForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('groups')
+    else:
+        form = GroupForm()
+    return render(request, 'students/insert_group.html', {'form' : form})
+
+def edit_group(request, group_id=None):
+    group = get_object_or_404(Group, pk=group_id)
+    if request.method == 'POST':
+        form = GroupForm(request.POST, instance=group)
+        if form.is_valid():
+            form.save()
+            return redirect('group', group_id=group_id)
+    else:
+        form = GroupForm(instance=group)
+    return render(request, 'students/edit_group.html', {'form' : form, 'group': group})
+
+def delete_group(request, group_id=None):
+    group = get_object_or_404(Group, pk=group_id)
+    if request.method == "POST":
+        form = GroupDeleteForm(request.POST,
+                              instance=group)
+        if form.is_valid():
+            group.delete()
+            return redirect('groups')
+    else:
+        form = GroupDeleteForm(instance=group)
+
+    return render(request, 'students/delete_group.html',
+                  {
+                      'form': form,
+                      'group': group,
+                  })
+
+def faculties(request): 
+    faculties = Faculty.objects.all()
+    context = {'faculties': faculties}
+    return render(request, 'students/faculties.html', context)                  
+
+def faculty(request, faculty_id):
+    faculty = get_object_or_404(Faculty, pk=faculty_id)
+    groups = Group.objects.filter(faculty__id=faculty_id)
+    return render(request, 'students/faculty.html', {'groups': groups, 'faculty': faculty})
+
+def insert_faculty(request): 
+    if request.method == 'POST':
+        form = FacultyForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('faculties')
+    else:
+        form = FacultyForm()
+    return render(request, 'students/insert_faculty.html', {'form' : form})
+
+def edit_faculty(request, faculty_id=None):
+    faculty = get_object_or_404(Faculty, pk=faculty_id)
+    if request.method == 'POST':
+        form = FacultyForm(request.POST, instance=faculty)
+        if form.is_valid():
+            form.save()
+            return redirect('faculty', faculty_id=faculty_id)
+    else:
+        form = FacultyForm(instance=faculty)
+    return render(request, 'students/edit_faculty.html', {'form' : form, 'faculty': faculty})
+
+def delete_faculty(request, faculty_id=None):
+    faculty = get_object_or_404(Faculty, pk=faculty_id)
+    if request.method == "POST":
+        form = FacultyDeleteForm(request.POST,
+                              instance=faculty)
+        if form.is_valid():
+            faculty.delete()
+            return redirect('faculties')
+    else:
+        form = FacultyDeleteForm(instance=faculty)
+
+    return render(request, 'students/delete_faculty.html',
+                  {
+                      'form': form,
+                      'faculty': faculty,
+                  })
     

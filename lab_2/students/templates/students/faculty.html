@@ -1,0 +1,19 @@
+{% extends "students/base.html" %}
+
+{% block title %}
+Faculty {{ faculty.name }}
+{% endblock %}
+
+{% block content %}
+<h1>{{ faculty.name }}</h1>
+{% if groups %}
+<h6>Groups:</h6>
+<ul>
+    {% for group in groups %}
+    <li><a href="{% url 'group' group.id %}">{{ group.number }}</a></li>
+    {% endfor %}
+</ul>
+{% endif %}
+<a class="btn btn-primary" href="{% url 'edit_faculty' faculty.pk %}" role="button">Edit</a>
+<a class="btn btn-primary" href="{% url 'delete_faculty' faculty.pk %}" role="button">Delete</a>
+{% endblock %}

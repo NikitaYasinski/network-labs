@@ -1,0 +1,24 @@
+{% extends "students/base.html" %}
+
+{% block title %}
+Group {{ group.number }}
+{% endblock %}
+
+{% block content %}
+<h1>{{ group.number }}</h1>
+<br><br>
+{% if teacher %}
+<h6>Main teacher: <a href="{% url 'teacher' teacher.id %}">{{ teacher.name }}</a></h6>
+{% endif %}
+<br><br>
+{% if students %}
+<h6>Students</h6>
+<ul>
+    {% for student in students%}
+    <li><a href="{% url 'student' student.id %}">{{ student.name }}</a></li>
+    {% endfor %}
+</ul>
+{% endif %}
+<a class="btn btn-primary" href="{% url 'edit_group' group.pk %}" role="button">Edit</a>
+<a class="btn btn-primary" href="{% url 'delete_group' group.pk %}" role="button">Delete</a>
+{% endblock %}

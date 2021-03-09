@@ -1,0 +1,20 @@
+{% extends "students/base.html" %}
+
+{% block title %}
+Delete group
+{% endblock %}
+
+{% block content %}
+<h1>Delete group</h1>
+<form action="{% url 'delete_group' group.pk %}" method="post">
+    {% csrf_token %}
+    {{ form }}
+
+    Are you sure you want to delete the following group?:<br><br>
+    {{ group.number }}<br><br>
+
+    <button class="btn btn-primary" type="submit">Delete</button>
+    <a class="btn btn-primary" href="{% url 'group' group.pk %}">Cancel</a>
+
+</form>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "students/base.html" %}
+
+{% block title %}
+Edit group
+{% endblock %}
+
+{% block content %}
+<h1>Edit group</h1>
+<form action="{% url 'edit_group' group.pk %}"
+      method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+<button class="btn btn-primary" type="submit">Update</button>
+</form>
+{% endblock %}

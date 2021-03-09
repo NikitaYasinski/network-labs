@@ -1,0 +1,18 @@
+{% extends "students/base.html" %}
+{% block title %}
+Groups
+{% endblock %}
+
+{% block content %}
+<a class="btn btn-primary" href="{% url 'insert_group' %}" role="button">Add new group</a>
+<br><br>
+{% if groups %}
+    <ul>
+    {% for group in groups %}
+    <li><a href="{% url 'group' group.id %}">{{ group.number }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No groups are available.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "students/base.html" %}
+
+{% block title %}
+Delete faculty
+{% endblock %}
+
+{% block content %}
+<h1>Delete faculty</h1>
+<form action="{% url 'delete_faculty' faculty.pk %}" method="post">
+    {% csrf_token %}
+    {{ form }}
+
+    Are you sure you want to delete the following faculty?:<br><br>
+    {{ faculty.name }}<br><br>
+
+    <button class="btn btn-primary" type="submit">Delete</button>
+    <a class="btn btn-primary" href="{% url 'faculty' faculty.pk %}">Cancel</a>
+
+</form>
+{% endblock %}
