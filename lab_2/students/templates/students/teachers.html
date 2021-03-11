@@ -4,6 +4,7 @@ Teachers
 {% endblock %}
 
 {% block content %}
+<div style="display: flex; align-items: center; justify-content: center; flex-direction: column; margin-top: 10px">
 <a class="btn btn-primary" href="{% url 'insert_teacher' %}" role="button">Add new teacher</a>
 <br><br>
 {% if teachers %}
@@ -15,4 +16,5 @@ Teachers
 {% else %}
     <p>No teachers are available.</p>
 {% endif %}
+</div>
 {% endblock %}

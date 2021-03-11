@@ -4,15 +4,17 @@ Students
 {% endblock %}
 
 {% block content %}
-<a class="btn btn-primary" href="{% url 'insert_student' %}" role="button">Add new student</a>
-<br><br>
-{% if students %}
-    <ul>
-    {% for student in students %}
-    <li><a href="{% url 'student' student.id %}">{{ student.name }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No students are available.</p>
-{% endif %}
+<div style="display: flex; align-items: center; justify-content: center; flex-direction: column; margin-top: 10px">
+    <a class="btn btn-primary" href="{% url 'insert_student' %}" role="button">Add new student</a>
+    <br><br>
+    {% if students %}
+        <ul>
+        {% for student in students %}
+        <li><a href="{% url 'student' student.id %}">{{ student.name }}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No students are available.</p>
+    {% endif %}
+</div>
 {% endblock %}

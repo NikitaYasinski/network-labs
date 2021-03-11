@@ -5,16 +5,18 @@ Delete group
 {% endblock %}
 
 {% block content %}
-<h1>Delete group</h1>
-<form action="{% url 'delete_group' group.pk %}" method="post">
-    {% csrf_token %}
-    {{ form }}
+<div style="display: flex; align-items: center; justify-content: center; flex-direction: column; margin-top: 10px">
+    <h1>Delete group</h1>
+    <form action="{% url 'delete_group' group.pk %}" method="post">
+        {% csrf_token %}
+        {{ form }}
 
-    Are you sure you want to delete the following group?:<br><br>
-    {{ group.number }}<br><br>
+        Are you sure you want to delete the following group?:<br><br>
+        <p style="text-align: center; margin-bottom: 0">{{ group.number }}</p><br><br>
 
-    <button class="btn btn-primary" type="submit">Delete</button>
-    <a class="btn btn-primary" href="{% url 'group' group.pk %}">Cancel</a>
+        <button class="btn btn-primary" type="submit">Delete</button>
+        <a class="btn btn-primary" href="{% url 'group' group.pk %}">Cancel</a>
 
-</form>
+    </form>
+</div>
 {% endblock %}

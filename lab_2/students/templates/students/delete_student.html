@@ -5,16 +5,18 @@ Delete student
 {% endblock %}
 
 {% block content %}
+<div style="display: flex; align-items: center; justify-content: center; flex-direction: column; margin-top: 10px">
 <h1>Delete student</h1>
-<form action="{% url 'delete_student' student.pk %}" method="post">
-    {% csrf_token %}
-    {{ form }}
+    <form action="{% url 'delete_student' student.pk %}" method="post">
+        {% csrf_token %}
+        {{ form }}
 
-    Are you sure you want to delete the following student?:<br><br>
-    {{ student.name }}?<br><br>
+        Are you sure you want to delete the following student?:<br><br>
+        <p style="text-align: center; margin-bottom: 0">{{ student.name }}</p><br><br>
 
-    <button class="btn btn-primary" type="submit">Delete</button>
-    <a class="btn btn-primary" href="{% url 'student' student.pk %}">Cancel</a>
+        <button class="btn btn-primary" type="submit">Delete</button>
+        <a class="btn btn-primary" href="{% url 'student' student.pk %}">Cancel</a>
 
-</form>
+    </form>
+</div>
 {% endblock %}

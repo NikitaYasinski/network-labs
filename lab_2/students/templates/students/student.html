@@ -5,13 +5,15 @@ Student {{ student.name }}
 {% endblock %}
 
 {% block content %}
-<h1>{{ student.name }}</h1>
-<ul>
-    <li>{{ student.name }}</li>
-    <li>{{ student.email }}</li>
-    <li>{{ student.phone }}</li>
-    <li>{{ student.group }}</li>
-</ul>
-<a class="btn btn-primary" href="{% url 'edit_student' student.pk %}" role="button">Edit</a>
-<a class="btn btn-primary" href="{% url 'delete_student' student.pk %}" role="button">Delete</a>
+<div style="display: flex; align-items: center; justify-content: center; flex-direction: column; margin-top: 10px">
+    <h1>{{ student.name }}</h1>
+    <ul>
+        <li>{{ student.name }}</li>
+        <li>{{ student.email }}</li>
+        <li>{{ student.phone }}</li>
+        <li>{{ student.group }}</li>
+    </ul>
+    <a class="btn btn-primary" href="{% url 'edit_student' student.pk %}" role="button">Edit</a>
+    <a class="btn btn-primary" href="{% url 'delete_student' student.pk %}" role="button">Delete</a>
+</div>
 {% endblock %}

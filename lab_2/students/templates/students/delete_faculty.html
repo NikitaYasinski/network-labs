@@ -5,16 +5,20 @@ Delete faculty
 {% endblock %}
 
 {% block content %}
+<div style="display: flex; align-items: center; justify-content: center; flex-direction: column; margin-top: 10px">
 <h1>Delete faculty</h1>
-<form action="{% url 'delete_faculty' faculty.pk %}" method="post">
-    {% csrf_token %}
-    {{ form }}
+    <form action="{% url 'delete_faculty' faculty.pk %}" method="post">
+        {% csrf_token %}
+        {{ form }}
 
-    Are you sure you want to delete the following faculty?:<br><br>
-    {{ faculty.name }}<br><br>
+        Are you sure you want to delete the following faculty?<br><br>
+        <p style="text-align: center; margin-bottom: 0">{{ faculty.name }}</p><br><br>
 
-    <button class="btn btn-primary" type="submit">Delete</button>
-    <a class="btn btn-primary" href="{% url 'faculty' faculty.pk %}">Cancel</a>
+        <div style="display: flex; justify-content: space-between">
+            <button class="btn btn-primary" type="submit">Delete</button>
+            <a class="btn btn-primary" href="{% url 'faculty' faculty.pk %}">Cancel</a>
+        </div>
 
-</form>
+    </form>
+</div>
 {% endblock %}
