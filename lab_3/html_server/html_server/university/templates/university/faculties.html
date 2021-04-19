@@ -1,0 +1,25 @@
+{% extends "university/base.html" %}
+{% block title %}
+Faculties
+{% endblock %}
+
+{% block content %}
+Add new faculty:
+<form action="{% url 'faculties' %}"
+      method="post">
+      {%csrf_token%}
+<label for="name">Name:</label><br>
+<input type="text" id="name" name="name"><br>
+<button class="btn btn-primary" type="submit">Create</button>
+</form>
+<br><br>
+{% if faculties %}
+    <ul>
+    {% for faculty in faculties %}
+    <li><a href="{% url 'faculty' faculty.id %}">{{ faculty.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No faculties are available.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "university/base.html" %}
+{% block title %}
+Groups
+{% endblock %}
+
+{% block content %}
+Add new group:
+<form action="{% url 'groups' %}"
+      method="post">
+      {%csrf_token%}
+<label for="number">Number:</label><br>
+<input type="text" id="number" name="number"><br>
+<label for="email">Faculty:</label><br>
+<input type="text" id="faculty" name="faculty"><br>
+<button class="btn btn-primary" type="submit">Create</button>
+</form>
+<br><br>
+{% if groups %}
+    <ul>
+    {% for group in groups %}
+    <li><a href="{% url 'group' group.id %}">{{ group.number }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No groups are available.</p>
+{% endif %}
+{% endblock %}

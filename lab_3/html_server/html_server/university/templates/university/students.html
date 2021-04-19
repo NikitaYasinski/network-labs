@@ -1,0 +1,32 @@
+{% extends "university/base.html" %}
+{% block title %}
+Students
+{% endblock %}
+
+{% block content %}
+Add new student:
+<form action="{% url 'students' %}"
+      method="post">
+      {%csrf_token%}
+<label for="name">Name:</label><br>
+<input type="text" id="name" name="name"><br>
+<label for="email">Email:</label><br>
+<input type="text" id="email" name="email"><br>
+<label for="phone">Phone:</label><br>
+<input type="text" id="phone" name="phone"><br>
+<label for="group">Group:</label><br>
+<input type="text" id="group" name="group"><br>
+<button class="btn btn-primary" type="submit">Create</button>
+</form>
+
+<br><br>
+{% if students %}
+    <ul>
+    {% for student in students %}
+    <li><a href="{% url 'student' student.id %}">{{ student.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No students are available.</p>
+{% endif %}
+{% endblock %}
