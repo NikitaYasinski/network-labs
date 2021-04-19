@@ -1,0 +1,18 @@
+{% extends "university/base.html" %}
+{% block title %}
+Faculties
+{% endblock %}
+
+{% block content %}
+<a class="btn btn-primary" href="{% url 'faculties' %}" role="button">Add new faculty</a>
+<br><br>
+{% if faculties %}
+    <ul>
+    {% for faculty in faculties %}
+    <li><a href="{% url 'faculty' faculty.id %}">{{ faculty.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No faculties are available.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "university/base.html" %}
+
+{% block title %}
+Teacher {{ teacher.name }}
+{% endblock %}
+
+{% block content %}
+<h1>{{ teacher.name }}</h1>
+<ul>
+    <li>{{ teacher.name }}</li>
+    <li>{{ teacher.email }}</li>
+    <li>{{ teacher.phone }}</li>
+    <li>{{ teacher.group_number }}</li>
+    <li>{{ teacher.subject }}</li>
+</ul>
+<a class="btn btn-primary" href="{% url 'teacher' teacher.id %}" role="button">Edit</a>
+<a class="btn btn-primary" href="{% url 'teacher' teacher.id %}" role="button">Delete</a>
+{% endblock %}

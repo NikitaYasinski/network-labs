@@ -1,0 +1,14 @@
+{% extends "university/base.html" %}
+
+{% block title %}
+Faculty {{ faculty.name }}
+{% endblock %}
+
+{% block content %}
+<h1>{{ faculty.name }}</h1>
+<ul>
+    <li>{{ faculty.name }}</li>
+</ul>
+<a class="btn btn-primary" href="{% url 'faculty' faculty.id %}" role="button">Edit</a>
+<a class="btn btn-primary" href="{% url 'faculty' faculty.id %}" role="button">Delete</a>
+{% endblock %}

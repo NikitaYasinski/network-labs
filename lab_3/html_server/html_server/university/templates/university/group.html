@@ -1,0 +1,15 @@
+{% extends "university/base.html" %}
+
+{% block title %}
+Group {{ group.number }}
+{% endblock %}
+
+{% block content %}
+<h1>{{ group.number }}</h1>
+<ul>
+    <li>{{ group.number }}</li>
+    <li>{{ group.faculty_name }}</li>
+</ul>
+<a class="btn btn-primary" href="{% url 'group' group.id %}" role="button">Edit</a>
+<a class="btn btn-primary" href="{% url 'group' group.id %}" role="button">Delete</a>
+{% endblock %}
