@@ -4,7 +4,14 @@ Faculties
 {% endblock %}
 
 {% block content %}
-<a class="btn btn-primary" href="{% url 'faculties' %}" role="button">Add new faculty</a>
+Add new faculty:
+<form action="{% url 'faculties' %}"
+      method="post">
+      {%csrf_token%}
+<label for="name">Name:</label><br>
+<input type="text" id="name" name="name"><br>
+<button class="btn btn-primary" type="submit">Create</button>
+</form>
 <br><br>
 {% if faculties %}
     <ul>

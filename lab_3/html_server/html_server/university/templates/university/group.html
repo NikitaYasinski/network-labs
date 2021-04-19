@@ -8,8 +8,20 @@ Group {{ group.number }}
 <h1>{{ group.number }}</h1>
 <ul>
     <li>{{ group.number }}</li>
-    <li>{{ group.faculty_name }}</li>
+    <li>{{ group.faculty }}</li>
 </ul>
-<a class="btn btn-primary" href="{% url 'group' group.id %}" role="button">Edit</a>
-<a class="btn btn-primary" href="{% url 'group' group.id %}" role="button">Delete</a>
+<form action="{% url 'group' group.id %}" method="post">
+    {%csrf_token%}
+    <label for="number">Number:</label><br>
+    <input type="text" id="number" name="number" value="{{ group.number }}"><br>
+    <label for="faculty">Faculty:</label><br>
+    <input type="text" id="faculty" name="faculty", value="{{ group.faculty }}"><br>
+    <input type="hidden" name="_method" value="put">
+    <input type="submit" value="Update">
+</form>
+<form action="{% url 'group' group.id %}" method="post">
+      {%csrf_token%}
+      <input type="hidden" name="_method" value="delete">
+      <input type="submit" value="Delete">
+</form>
 {% endblock %}

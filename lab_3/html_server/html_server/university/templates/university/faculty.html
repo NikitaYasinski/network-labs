@@ -9,6 +9,16 @@ Faculty {{ faculty.name }}
 <ul>
     <li>{{ faculty.name }}</li>
 </ul>
-<a class="btn btn-primary" href="{% url 'faculty' faculty.id %}" role="button">Edit</a>
-<a class="btn btn-primary" href="{% url 'faculty' faculty.id %}" role="button">Delete</a>
+<form action="{% url 'faculty' faculty.id %}" method="post">
+    {%csrf_token%}
+    <label for="name">Name:</label><br>
+    <input type="text" id="name" name="name" value="{{ faculty.name }}"><br>
+    <input type="hidden" name="_method" value="put">
+    <input type="submit" value="Update">
+</form>
+<form action="{% url 'faculty' faculty.id %}" method="post">
+      {%csrf_token%}
+      <input type="hidden" name="_method" value="delete">
+      <input type="submit" value="Delete">
+</form>
 {% endblock %}

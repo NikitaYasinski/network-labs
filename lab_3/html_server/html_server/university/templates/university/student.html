@@ -12,6 +12,22 @@ Student {{ student.name }}
     <li>{{ student.phone }}</li>
     <li>{{ student.group }}</li>
 </ul>
-<a class="btn btn-primary" href="{% url 'student' student.id %}" role="button">Edit</a>
-<a class="btn btn-primary" href="{% url 'student' student.id %}" role="button">Delete</a>
+<form action="{% url 'student' student.id %}" method="post">
+    {%csrf_token%}
+    <label for="name">Name:</label><br>
+    <input type="text" id="name" name="name" value="{{ student.name }}"><br>
+    <label for="email">Email:</label><br>
+    <input type="text" id="email" name="email", value="{{ student.email }}"><br>
+    <label for="phone">Phone:</label><br>
+    <input type="text" id="phone" name="phone", value="{{ student.phone }}"><br>
+    <label for="group">Group:</label><br>
+    <input type="text" id="group" name="group", value="{{ student.group }}"><br>
+    <input type="hidden" name="_method" value="put">
+    <input type="submit" value="Update">
+</form>
+<form action="{% url 'student' student.id %}" method="post">
+      {%csrf_token%}
+      <input type="hidden" name="_method" value="delete">
+      <input type="submit" value="Delete">
+</form>
 {% endblock %}

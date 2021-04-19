@@ -4,7 +4,16 @@ Groups
 {% endblock %}
 
 {% block content %}
-<a class="btn btn-primary" href="{% url 'groups' %}" role="button">Add new group</a>
+Add new group:
+<form action="{% url 'groups' %}"
+      method="post">
+      {%csrf_token%}
+<label for="number">Number:</label><br>
+<input type="text" id="number" name="number"><br>
+<label for="email">Faculty:</label><br>
+<input type="text" id="faculty" name="faculty"><br>
+<button class="btn btn-primary" type="submit">Create</button>
+</form>
 <br><br>
 {% if groups %}
     <ul>

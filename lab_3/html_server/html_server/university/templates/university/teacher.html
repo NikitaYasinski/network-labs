@@ -10,9 +10,27 @@ Teacher {{ teacher.name }}
     <li>{{ teacher.name }}</li>
     <li>{{ teacher.email }}</li>
     <li>{{ teacher.phone }}</li>
-    <li>{{ teacher.group_number }}</li>
+    <li>{{ teacher.group }}</li>
     <li>{{ teacher.subject }}</li>
 </ul>
-<a class="btn btn-primary" href="{% url 'teacher' teacher.id %}" role="button">Edit</a>
-<a class="btn btn-primary" href="{% url 'teacher' teacher.id %}" role="button">Delete</a>
+<form action="{% url 'teacher' teacher.id %}" method="post">
+    {%csrf_token%}
+    <label for="name">Name:</label><br>
+    <input type="text" id="name" name="name" value="{{ teacher.name }}"><br>
+    <label for="email">Email:</label><br>
+    <input type="text" id="email" name="email", value="{{ teacher.email }}"><br>
+    <label for="phone">Phone:</label><br>
+    <input type="text" id="phone" name="phone", value="{{ teacher.phone }}"><br>
+    <label for="group">Group:</label><br>
+    <input type="text" id="group" name="group", value="{{ teacher.group }}"><br>
+    <label for="subject">Subject:</label><br>
+    <input type="text" id="subject" name="subject", value="{{ teacher.subject }}"><br>
+    <input type="hidden" name="_method" value="put">
+    <input type="submit" value="Update">
+</form>
+<form action="{% url 'teacher' teacher.id %}" method="post">
+      {%csrf_token%}
+      <input type="hidden" name="_method" value="delete">
+      <input type="submit" value="Delete">
+</form>
 {% endblock %}
