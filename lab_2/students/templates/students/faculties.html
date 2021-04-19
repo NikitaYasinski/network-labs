@@ -4,15 +4,17 @@ Faculties
 {% endblock %}
 
 {% block content %}
-<a class="btn btn-primary" href="{% url 'insert_faculty' %}" role="button">Add new faculty</a>
-<br><br>
-{% if faculties %}
-    <ul>
-    {% for faculty in faculties %}
-    <li><a href="{% url 'faculty' faculty.id %}">{{ faculty.name }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No faculties are available.</p>
-{% endif %}
+<div style="display: flex; align-items: center; justify-content: center; flex-direction: column; margin-top: 10px">
+    <a class="btn btn-primary" href="{% url 'insert_faculty' %}" role="button">Add new faculty</a>
+    <br><br>
+    {% if faculties %}
+        <ul>
+        {% for faculty in faculties %}
+        <li><a href="{% url 'faculty' faculty.id %}">{{ faculty.name }}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No faculties are available.</p>
+    {% endif %}
+</div>
 {% endblock %}

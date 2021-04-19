@@ -5,11 +5,13 @@ Add new group
 {% endblock %}
 
 {% block content %}
-<h1>Add new group</h1>
-<form action="{% url 'insert_group' %}"
-      method="post">
-      {% csrf_token %}
-      {{ form.as_p }}
-<button class="btn btn-primary" type="submit">Create</button>
-</form>
+<div style="display: flex; align-items: center; justify-content: center; flex-direction: column; margin-top: 10px">
+    <h1>Add new group</h1>
+    <form action="{% url 'insert_group' %}"
+          method="post">
+          {% csrf_token %}
+          {{ form.as_p }}
+    <button class="btn btn-primary" type="submit">Create</button>
+    </form>
+</div>
 {% endblock %}
