@@ -1,0 +1,5 @@
+export const SET_SELECTED_ITEM = 'SET_SELECTED_ITEM';
+export const SET_SELECTED_ITEM_STATE = 'SET_SELECTED_ITEM_STATE';
+export const ADD_NEW_ITEM = 'ADD_NEW_ITEM';
+export const DELETE_ITEM = 'DELETE_ITEM';
+export const UPDATE_ITEM = 'UPDATE_ITEM';
